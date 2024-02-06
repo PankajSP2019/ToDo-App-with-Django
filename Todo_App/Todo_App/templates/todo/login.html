@@ -118,16 +118,6 @@
 {% block script %}
 <script>
 
-    //For Typed JS
-    //Declare the CDN for this, in basic.html
-    var typed = new Typed(".auto-type",{
-        strings: ["login Form", "Plan", "Achieve", "Reflect", "Repeat"],
-        typeSpeed: 100,
-        backSpeed: 100,
-        //backDelay: 500,
-        //startDelay: 1000,
-        loop: true
-    })
 
 
     // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -150,5 +140,18 @@
           }, false)
         })
       })() //End
+
+
+    //For Typed JS
+    //Declare the CDN for this, in basic.html
+    var typed = new Typed(".auto-type",{
+        strings: ["login Form", "Plan", "Achieve", "Reflect", "Repeat"],
+        typeSpeed: 100,
+        backSpeed: 100,
+        //backDelay: 500,
+        //startDelay: 1000,
+        loop: true
+    })
+
 </script>
 {% endblock %}

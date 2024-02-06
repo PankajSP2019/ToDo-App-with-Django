@@ -48,12 +48,23 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                                     <div class="card-body p-md-5 text-black">
 
                                         <!-- Alert Button For Showing the Messages-->
-                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                            <strong>Holy guacamole!</strong> You should check in on some of those fields
-                                            below.
+                                        {% if messages %} <!-- main condition-->
+                                        {% for message in messages %}
+                                        {% if message.tags == 'error' %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>Hello!</strong> {{ message }}
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                     aria-label="Close"></button>
                                         </div>
+                                        {% else %}
+                                        <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" {% endif %}>
+                                            <strong>Hello!</strong> {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% endif %} <!-- END main condition-->
 
 
                                         <h3 class="mb-5 text-uppercase">ToDO-App - <span style="color:#206ce6;" class="auto-type"></span></h3>
@@ -175,16 +186,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 {% block script %}
 <script>
 
-    //For Typed JS
-    //Declare the CDN for this, in basic.html
-    var typed = new Typed(".auto-type",{
-        strings: [" Registration Form", "Plan", "Achieve", "Reflect", "Repeat"],
-        typeSpeed: 100,
-        backSpeed: 100,
-        //backDelay: 500,
-        //startDelay: 1000,
-        loop: true
-    })
+
 
     // Example starter JavaScript for disabling form submissions if there are invalid fields
    //start
@@ -206,5 +208,16 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
       }, false)
     })
   })() //End
+
+//For Typed JS
+//Declare the CDN for this, in basic.html
+var typed = new Typed(".auto-type",{
+    strings: [" Registration Form", "Plan", "Achieve", "Reflect", "Repeat"],
+    typeSpeed: 100,
+    backSpeed: 100,
+    //backDelay: 500,
+    //startDelay: 1000,
+    loop: true
+})
 </script>
 {% endblock %}
