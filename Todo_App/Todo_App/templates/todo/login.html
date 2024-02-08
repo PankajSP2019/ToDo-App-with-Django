@@ -33,12 +33,26 @@
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <!-- Alert Button For Showing the Messages-->
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {% if messages %} <!-- main condition-->
+                {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Hello!</strong> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                            aria-label="Close"></button>
                 </div>
+                {% else %}
+                <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                     role="alert" {% endif %}>
+                    <strong>Hello!</strong> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %} <!-- END main condition-->
 
-                <h3 class="mb-5 text-uppercase">ToDO-App -  <span style="color:#206ce6;" class="auto-type"></span></h3>
+                <h3 class="mb-5 text-uppercase">ToDO-App - <span style="color:#206ce6;" class="auto-type"></span></h3>
 
                 <form class="row g-3 needs-validation" action="/login/" method="post" novalidate>
                     {% csrf_token %}
@@ -85,7 +99,7 @@
         </div>
     </div>
 
-<!--    Footer-->
+    <!--    Footer-->
     <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
         <!-- Copyright -->
         <div class="text-white mb-3 mb-md-0">
@@ -117,7 +131,6 @@
 
 {% block script %}
 <script>
-
 
 
     // Example starter JavaScript for disabling form submissions if there are invalid fields

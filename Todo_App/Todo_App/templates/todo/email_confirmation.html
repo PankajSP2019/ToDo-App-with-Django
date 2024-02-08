@@ -1,0 +1,9 @@
+{% autoescape off %}
+
+Welcome to TODO-APP
+Dear {{name}}
+
+You are 1 step closer to using our freshly build APP. You have to confirm your email. Please click the following link.
+Confirmation Link : http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+{% endautoescape %}
