@@ -1,0 +1,76 @@
+<!--Data Entry Form-->
+<!-- <form id="contentForm" method="post" action="#" > {% csrf_token %}
+    <div class="container my-4">
+        <div class="container card w-50 mb-3">
+            <h5 class="card-header ">List Down Your Planned Work With To-Do-APP <span style="color:#206ce6;"
+                                                                                     class="auto-type"></span></h5>
+            <div class="card-body">
+                <div class="container">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" name="t_title" class="form-control" id="title"
+                               placeholder="Enter Your Work Title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                        <textarea name="t_description" class="form-control" id="exampleFormControlTextarea1"
+                                  rows="3" required></textarea>
+                        
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form> -->
+<!--END Data Entry Form-->
+
+
+
+
+<!--List Group-->
+<!-- <div class="container my-4">
+
+  <h2>Your Planned Work</h2>
+    <ul class="list-group  my-4" id="updates_item">
+        {% if user.is_authenticated %}
+            {% if content|length == 0 %}
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                Sorry, We are not able to fetch any todos, Please Add some.
+              </li>
+            {% else %}
+              {% for i in content %}
+                {% if i.status == "pending" %}
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">{{i.title}}</div>
+                      {{i.content}}
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                      <button type="button" id="delete-button" data-item-id="{{i.todo_id}}" class="btn btn-danger">Delete</button>
+                      <button type="button" id="done-button" data-item-id="{{i.todo_id}}" class="btn btn-success">Done</button>
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              {% for i in content %}
+                {% if i.status == "done" %}
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold"><del>{{i.title}}</del></div>
+                      <del>{{i.content}}</del>
+                    </div>
+                    <span class="badge bg-primary ">{{i.status}}</span>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            {% endif %}      
+      {% endif %}
+  
+    </ul>
+</div> -->
+<!--END List Group-->
+
+
