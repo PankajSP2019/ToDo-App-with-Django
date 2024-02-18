@@ -1,4 +1,4 @@
-{% extends 'todo/basic.html' %}
+{% extends 'todo_op/basic.html' %}
 
 {% block title %} Login {% endblock%}
 
@@ -54,7 +54,7 @@
 
                 <h3 class="mb-5 text-uppercase">ToDO-App - <span style="color:#206ce6;" class="auto-type"></span></h3>
 
-                <form class="row g-3 needs-validation" action="/login/" method="post" novalidate>
+                <form class="row g-3 needs-validation" action="/todo/login/" method="post" novalidate>
                     {% csrf_token %}
                     <!-- Email input -->
                     <div class="form-outline mb-4">
@@ -87,7 +87,7 @@
 
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="my-2">
-                            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/register"
+                            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/todo/register"
                                                                                               class="link-danger">Register</a>
                             </p>
                         </div>

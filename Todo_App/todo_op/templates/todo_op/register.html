@@ -1,4 +1,4 @@
-{% extends 'todo/basic.html' %}
+{% extends 'todo_op/basic.html' %}
 
 {% block title %} Registration {% endblock%}
 
@@ -69,7 +69,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 
                                         <h3 class="mb-5 text-uppercase">ToDO-App - <span style="color:#206ce6;" class="auto-type"></span></h3>
 
-                                        <form class="row g-3 needs-validation" action="/register/" method="post" novalidate>
+                                        <form class="row g-3 needs-validation" action="/todo/register/" method="post" novalidate>
                                             {% csrf_token %}
                                             <div class="row">
                                                 <div class="col-md-6 mb-4">
@@ -164,7 +164,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                                                 <button type="submit" class="btn btn-warning btn-lg ms-2">Submit</button>
                                             </div>
                                             <div class="d-flex justify-content-center pt-3">
-                                                <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="/login" class="link-danger">Login</a></p>
+                                                <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="/todo/login" class="link-danger">Login</a></p>
                                             </div>
 
                                         </form>
