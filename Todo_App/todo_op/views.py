@@ -143,7 +143,10 @@ def show_content(request, u_name):
     # Fetch the data in descending order that's why put '-' before the field name
     all_data = TodoList.objects.filter(user_name=request.user.username).order_by('-todo_id')
 
-    return render(request, 'todo_op/content.html', {'content': all_data})
+    # Count the number of pending updates
+    pending_count = all_data.filter(status='pending').count()
+
+    return render(request, 'todo_op/content.html', {'content': all_data, 'pending_count': pending_count})
 
 
 @login_required(login_url='/todo/login/')

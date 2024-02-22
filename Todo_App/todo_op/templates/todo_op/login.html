@@ -56,7 +56,7 @@
 
                 <form class="row g-3 needs-validation" action="/todo/login/" method="post" novalidate>
                     {% csrf_token %}
-                    <!-- Email input -->
+                    <!-- Username input -->
                     <div class="form-outline mb-4">
                         <label for="validationCustomUsername" class="form-label">Username</label>
                         <div class="input-group has-validation">
@@ -72,7 +72,7 @@
                     <!-- Password input -->
                     <div class="form-outline mb-3">
                         <label for="validationCustom0" class="form-label">Password</label>
-                        <input type="text" name="pass" class="form-control form-control-lg" id="validationCustom0"
+                        <input type="password" name="pass" class="form-control form-control-lg" id="validationCustom0"
                                required>
                         <div class="invalid-feedback">
                             Please provide your Password.
@@ -99,31 +99,7 @@
         </div>
     </div>
 
-    <!--    Footer-->
-    <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-        <!-- Copyright -->
-        <div class="text-white mb-3 mb-md-0">
-            Copyright © 2020. All rights reserved.
-        </div>
-        <!-- Copyright -->
-
-        <!-- Right -->
-        <div>
-            <a href="#!" class="text-black me-4">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#!" class="text-white me-4">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#!" class="text-white me-4">
-                <i class="fab fa-google"></i>
-            </a>
-            <a href="#!" class="text-white">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-        </div>
-        <!-- Right -->
-    </div> <!--    End Footer-->
+    
 </section>
 
 {% endblock %}

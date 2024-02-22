@@ -3,59 +3,119 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+    <!-- Add an icon with the title. it will show along with the title in the browser's tab -->
+    <link rel="icon" type="image/svg+xml" href="{%static 'todo_op/bullseye-solid.svg' %}">
+
+
     <title>ToDo-Content</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+      #content {    
+          overflow-wrap: anywhere; 
+          text-align: justify;
+          
+        }
+
+    .profile-box {
+      background-color: #f8f9fa; 
+      padding: 20px; 
+      border-radius: 10px; 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+      text-align: center; 
+    }
+    .profile-picture {
+      width: 150px; 
+      height: 150px; 
+      border-radius: 50%; 
+      margin-bottom: 15px; 
+      transition: transform 0.3s ease-in-out; 
+    }
+    .profile-picture:hover {
+      transform: scale(1.1); 
+    }
+    .name,
+    .username {
+      transition: transform 0.3s; 
+    }
+    .name:hover,
+    .username:hover {
+      transform: scale(1.1); 
+    }
+    </style>
 </head>
 <body>
 
 
-<!--Nav Bar Start-->
-<nav class="navbar bg-primary navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
-                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="#">ToDo-App</a>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            </ul>
+<!--Example Nav Bar-->
+<nav class="navbar navbar-expand-lg " style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/todo/content/{{user.username}}"><span class="fw-bold fs-5">To-Do App</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      </ul>
 
-            <a
-                    data-mdb-dropdown-init
-                    class="text-reset me-3 dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    aria-expanded="false"
-            >
-                <i class="fas fa-bell"></i>
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>
-            </a>
-
-
-            {% if user.is_authenticated %}
-            <a href="/todo/logout">
-                <button class="btn btn-outline-danger" type="submit">Logout</button>
-            </a>
-            {% endif %}
-        </div>
+      <ul class="navbar-nav mx-4 my-2">
+        <li class="nav-item mx-4">
+          <button type="button" class="btn btn-warning position-relative">
+            <i class="bi bi-exclamation-triangle-fill"></i> Pending
+            <span id="count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <!-- Display The Pending List -->
+              {{ pending_count }}
+            </span>
+          </button>
+        </li>
+    
+        <li class="nav-item mx-2">
+          {% if user.is_authenticated %}
+          <a href="/todo/logout">
+            <button class="btn btn-outline-danger" type="submit">Logout <i class="bi bi-chevron-bar-right"></i></button>
+          </a>
+          {% endif %}
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
-<!--Nav Bar END-->
+<!--Example Nav Bar END-->
 
-<h3>{{user.first_name}} {{user.last_name}} {{user.username}}</h3>
+<!-- See Profile name and username -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="profile-box">
+        {% load static %}
+        <img src="{%static 'todo_op/p2.png'%}" alt="Profile Picture" class="profile-picture">
+        <h4 class="mb-3 name">{{user.first_name}} {{user.last_name}}</h4> 
+          <h5 class="username">Username: {{user.username}}</h5> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Data Entry from and Show -->
+
 <div class="mx-4 my-4">
+  <br><br>
   <div class="row">
-    <div class="col-6 col-md-6">
+    <div class="col-6 col-md-6 ">
       <!--Data Entry Form-->
       <form id="contentForm" method="post" action="#"> {% csrf_token %}
-        <div class=" ">
+        <div class="">
           <div class="card">
-            <h5 class="card-header ">List Down Your Planned Work With To-Do-APP <span style="color:#206ce6;"
+            <h5 class="card-header ">List Your Planned Work <span style="color:#206ce6;"
                 class="auto-type"></span></h5>
             <div class="card-body">
               <div class="container">
@@ -70,7 +130,7 @@
                     required></textarea>
                   <!-- <input type="text" name="t_description" class="form-control"  placeholder="Enter Your Work Title" required> -->
                 </div>
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-plus-lg"></i> ADD</button>
               </div>
             </div>
           </div>
@@ -81,7 +141,7 @@
     <!-- Work List -->
   <div class="col-6 col-md-6">
     <div class="container">
-      <h2>Your Planned Work</h2>
+      <h2>Your Planned Work</h2> 
         <ul class="list-group  my-4" id="updates_item">
           {% if user.is_authenticated %}
             {% if content|length == 0 %}
@@ -92,16 +152,65 @@
             <!-- For Pending to-do items -->
               {% for i in content %}
                 {% if i.status == "pending" %}
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">{{i.title}}</div>
-                    {{i.content}}
-                  </div>
-                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                    <button type="button" id="delete-button" data-item-id="{{i.todo_id}}" class="btn btn-danger">Delete</button>
-                    <button type="button" id="done-button" data-item-id="{{i.todo_id}}" class="btn btn-success">Done</button>
-                  </div>
-                </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <!-- First section to-do contents-->
+                    <div id="content" class="ms-2 me-auto">
+                      <div class="fw-bold fs-5">{{i.title}}</div>
+                      {{i.content}}
+                    </div>
+                    <!-- Second section buttons and modal-->
+                    <div class="position-sticky top-0 end-0">
+                      <div class="btn-group mx-2 my-2" role="group" aria-label="Basic mixed styles example">
+                        <!-- Pass the todo_id to the modal button -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop-delete-{{i.todo_id}}"> <i class="bi bi-trash3"></i></button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop-done-{{i.todo_id}}"> <i class="fa fa-check"></i></button>                         
+                      </div>
+                    </div>
+                    
+                    
+                    <!--FOR DLETE Modal -->
+                    <div class="modal fade" id="staticBackdrop-delete-{{i.todo_id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-sm modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">To-Do Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are You Sure About Delete Your To-Do Task? 
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <!-- After click this button DELETE Operation will Trigger  -->
+                            <button type="button" data-bs-dismiss="modal" data-item-id="{{i.todo_id}}" id="delete-button"  class="btn btn-danger">YES</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END DLETE Modal -->
+                    <!--FOR DONE Modal -->
+                    <div class="modal fade" id="staticBackdrop-done-{{i.todo_id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-sm modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">To-Do Done</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Your To-Do Task Is Done?  
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                             <!-- After click this button Done Operation will Trigger  -->
+                            <button type="button" data-bs-dismiss="modal" data-item-id="{{i.todo_id}}" id="done-button" class="btn btn-primary">Yes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END DONE Modal -->
+                  </li>
                 {% endif %}
               {% endfor %}
               <!-- For Done to-do items -->
@@ -109,7 +218,7 @@
                 {% if i.status == "done" %}
                   <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
-                      <div class="fw-bold"><del>{{i.title}}</del></div>
+                      <div class="fw-bold fs-5"><del>{{i.title}}</del></div>
                       <del>{{i.content}}</del>
                     </div>
                     <span class="badge bg-primary ">{{i.status}}</span>
@@ -124,32 +233,6 @@
   </div><!-- END Work List -->
 </div> <!--END Data Entry from and Show -->
 
-
-<!--Modal Example-->
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- END Modal -->
 
 
 
@@ -170,7 +253,6 @@
 <script>
 
 
-
     //For Typed JS
     //Declare the CDN for this, in basic.html
     var typed = new Typed(".auto-type",{
@@ -183,35 +265,6 @@
     });
 
 
-    /* $(document).on('click', '#delete-button', function (event) {
-        var itemId = $(this).data('item-id');
-        // Make an AJAX request to delete the item
-        var formData = {
-          'todo_id': itemId,  // Assuming 'todo_id' is the field name for identifying the item
-          'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-        };
-        $.ajax({
-          type: 'POST',
-          url: '/todo/delete_todo/',  // Change the URL to your delete_todo URL
-          data: formData,
-          encode: true
-        })
-          .done(function (data) {
-            // Handle the response if needed
-            // For example, you might want to remove the deleted item from the UI
-            alert("Item deleted successfully");
-            $('#updates_item li[data-item-id="' + itemId + '"]').remove();
-          })
-          .fail(function (jqXHR, textStatus, errorThrown) {
-            // Handle any errors
-            console.error('Error:', textStatus, errorThrown);
-            alert("Error deleting item");
-          });
-        event.preventDefault();
-      }); */
-
-
-    
     
     // When click the done button, this function will trigger
     $(document).on('click', '#done-button', function (event) {
@@ -230,16 +283,15 @@
         encode: true
       })
       .done(function (data) {
-          // Convert the data in JSON pass form our views
-          a = JSON.parse(data);
-          console.log(a)
 
-          updates = a[0];
+        // Convert the data in JSON pass form our views
+        a = JSON.parse(data);
+        updates = a[0];
 
-          // For display the Items in right order after an operation (DONE/DELEET)
-          displayUpdatedTodo(updates);
+        // For display the Items in right order after an operation (DONE/DELEET)
+        displayUpdatedTodo(updates);
 
-          //$('#updates_item li[data-item-id="' + itemId + '"]').remove();
+        //$('#updates_item li[data-item-id="' + itemId + '"]').remove();
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
           // Handle any errors
@@ -266,10 +318,11 @@
         encode: true
       })
         .done(function (data) {
+
           // Convert the data in JSON pass form our views
           a = JSON.parse(data);
-          console.log(a)
-
+          
+          //Pass the value from views in a list format, in 1st index our update items store
           updates = a[0];
 
           // For display the Items in right order after an operation (DONE/DELEET)
@@ -326,11 +379,15 @@
 
     // It will display the updated todo items
     function displayUpdatedTodo(updates){
+
       
       // At first clear the ul
       $('#updates_item').empty();
       
       if (updates && Array.isArray(updates) && updates.length > 0){
+
+
+        var count = 0
 
         // For pending Items
          for (i = 0; i < updates.length; i++) {
@@ -340,20 +397,78 @@
            var todo_id = updates[i]['todo_id'];
 
            if (status == 'pending') {
-             mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                          <div class="fw-bold">${title}</div>
-                            ${content}
+             // Append the todo items with modal
+              mystr2 = `<li class="list-group-item d-flex justify-content-between align-items-start">
+                    <!-- First section to-do content-->
+                    <div id="content" class="ms-2 me-auto">
+                      <div class="fw-bold fs-5">${title}</div>
+                      ${content}
+                    </div>
+                    <!-- Second section buttons and modals-->
+                    <div class="position-sticky top-0 end-0">
+                      <div class="btn-group mx-2 my-2" role="group" aria-label="Basic mixed styles example">
+                        <!-- Pass the todo_id to the modal button -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop-delete-${todo_id}"><span id="icon-delete-${todo_id}"></span></button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop-done-${todo_id}"><span id="icon-done-${todo_id}"></span></button>                         
+                      </div>
+                    </div>
+                    <!--FOR DELETE Modal -->
+                    <div class="modal fade" id="staticBackdrop-delete-${todo_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-sm modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">To-Do Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                          <button type="button" data-item-id="${todo_id}" id="delete-button" class="btn btn-danger">Delete</button>
-                          <button type="button" data-item-id="${todo_id}" id="done-button" class="btn btn-success">Done</button>
+                          <div class="modal-body">
+                            Are You Sure About Delete Your To-Do Task?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <!-- After click this button DELETE Operation will Trigger  -->
+                            <button type="button" data-bs-dismiss="modal" data-item-id="${todo_id}" id="delete-button"  class="btn btn-danger">YES</button>
+                          </div>
                         </div>
-                      </li>`;
+                      </div>
+                    </div>
+                    <!-- END DLETE Modal -->
+                    <!--FOR DONE Modal -->
+                    <div class="modal fade" id="staticBackdrop-done-${todo_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-sm modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">To-Do Done</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Your To-Do Task Is Done?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                             <!-- After click this button Done Operation will Trigger  -->
+                            <button type="button" data-bs-dismiss="modal" data-item-id="${todo_id}" id="done-button" class="btn btn-primary">Yes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END DONE Modal -->
+                  </li>`;
 
-             $('#updates_item').append(mystr);
+             $('#updates_item').append(mystr2);
+             /* document.getElementById("icon-delete-" + todo_id).innerHTML = '<i class="bi bi-trash3"></i>';
+             document.getElementById("icon-done-" + todo_id).innerHTML = '<i class="bi bi-check"></i>'; */
+             count = count + 1;
 
            }
+
+
+           // Nothing just set the Icons
+           // Set icon for delete button
+           $(`#icon-delete-${todo_id}`).html('<i class="bi bi-trash3"></i>');
+           // Set icon for done button
+           $(`#icon-done-${todo_id}`).html('<i class="fa fa-check" "></i>');
          }
 
          // For Done Items
@@ -365,7 +480,7 @@
            if (status == 'done') {
              mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
                         <div class="ms-2 me-auto">
-                          <div class="fw-bold"><del>${title}</del></div>
+                          <div class="fw-bold fs-5"><del>${title}</del></div>
                             <del>${content}</del>
                           </div>
                         <span class="badge bg-primary ">${status}</span>
@@ -375,6 +490,8 @@
 
            }
          }
+
+         $("#count").html(count);
       }else{
         mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
                     Sorry, We are not able to fetch any todos, Please Add some.
@@ -383,8 +500,9 @@
       }
   }
   
-</script>
 
+   
+</script>
 
 </body>
 </html>
