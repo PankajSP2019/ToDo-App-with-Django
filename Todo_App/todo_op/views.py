@@ -121,6 +121,8 @@ def login_todo(request):
         uname = request.POST.get('u_name', '')
         password = request.POST.get('pass', '')
 
+        # Will Work Here, if the account is not activate, show up message
+
         # It will check the username and password
         user = authenticate(username=uname, password=password)
         if user is not None:
